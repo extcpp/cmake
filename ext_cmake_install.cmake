@@ -5,6 +5,7 @@ macro(ext_install lib)
         TARGETS "${lib}"
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
     )
 
     foreach(arg ${ARGN})

@@ -7,3 +7,5 @@ CMake Library
 - ext_cmake_setup - setup macro used in extcpp projects
 - ext_cmake_utils - provides some nice helper functions and macros
 - ext_script_git_version - script that creates an include file containing the git commit hash
+- FindFilesystem
+- FindSDL, FindSDL_mixer

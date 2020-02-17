@@ -141,6 +141,7 @@ if(NOT "Experimental" IN_LIST want_components)
     set(find_EXPERIMENTAL FALSE)
 endif()
 
+set(_fs_have_fs FALSE)
 set(_fs_header_FINAL "filesystem")
 set(_fs_namespace_FINAL "std::filesystem")
 
@@ -163,7 +164,7 @@ foreach(_current_header "FINAL" "EXPERIMENTAL")
     mark_as_advanced(_CXX_FILESYSTEM_HAVE_${_current_header}_HEADER)
 
     if(_CXX_FILESYSTEM_HAVE_${_current_header}_HEADER)
-
+        set(_fs_have_fs TRUE)
         set(cxx_filesystem_header ${_fs_header_${_current_header}})
         set(cxx_filesystem_namespace ${_fs_namespace_${_current_header}})
 
@@ -203,9 +204,9 @@ endforeach(_current_header "FINAL" "EXPERIMENTAL")
 
 cmake_pop_check_state()
 
-set(CXX_FILESYSTEM_HEADER ${_found} CACHE STRING "The header that should be included to obtain the filesystem APIs")
+set(CXX_FILESYSTEM_HEADER ${_fs_header_${_fs_use_header}} CACHE STRING "The header that should be included to obtain the filesystem APIs")
 set(CXX_FILESYSTEM_NAMESPACE ${_fs_namespace_${_fs_use_header}} CACHE STRING "The C++ namespace that contains the filesystem APIs")
-set(CXX_FILESYSTEM_HAVE_FS ${_have_fs_${_fs_use_header}} CACHE BOOL "TRUE if we have the C++ filesystem headers")
+set(CXX_FILESYSTEM_HAVE_FS ${_fs_have_fs} CACHE BOOL "TRUE if we have the C++ filesystem headers")
 set(Filesystem_FOUND ${_found} CACHE BOOL "TRUE if we can compile and link a program using std::filesystem" FORCE)
 
 if(Filesystem_FIND_REQUIRED AND NOT Filesystem_FOUND)

@@ -55,11 +55,13 @@ macro(ext_add_test_subdirectory type)
 
     if("${type}" STREQUAL "google") # <-- expand type here!
         if(NOT TARGET gtest) #avoid recursive inclusion of gtest
-          if("${LIBEXT_SOURCE_DIR}" STREQUAL "")
-              ext_fatal("LIBEXT_SOURCE_DIR not found")
-          endif()
-          ext_log("using google test in: ${LIBEXT_SOURCE_DIR}/external_libs/googletest")
-          add_subdirectory(${LIBEXT_SOURCE_DIR}/external_libs/googletest)
+           include(FetchContent)
+			FetchContent_Declare(gtest_github
+			    GIT_REPOSITORY https://github.com/google/googletest.git
+			    GIT_TAG master
+			    GIT_PROGRESS TRUE
+			)
+			FetchContent_MakeAvailable(gtest_github) 
         endif()
     else()
         message(ERROR "unknown test type")

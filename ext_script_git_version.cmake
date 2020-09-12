@@ -6,6 +6,8 @@ if(NOT EXT_GIT_VERSION_OUT_FILE)
     set(EXT_GIT_VERSION_OUT_FILE "${CMAKE_CURRENT_LIST_DIR}/version.h")
 endif()
 
+message(STATUS "extINFO -- Trying to write version.h to: ${EXT_GIT_VERSION_OUT_FILE}")
+
 execute_process(
     COMMAND git rev-parse HEAD
     OUTPUT_VARIABLE GIT_REV

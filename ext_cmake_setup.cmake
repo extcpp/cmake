@@ -7,7 +7,11 @@ if(NOT EXT_SETUP_DONE)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON) # XCode / VS folders
 
     include(ext_cmake_utils)
+    include(ext_cmake_install)
     include(ext_cmake_compiler_specific)
+
+    include (TestBigEndian)
+    TEST_BIG_ENDIAN(ext_is_big_endian)
 
     # execute this setup just once
     if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")

@@ -15,6 +15,9 @@ include(ext_cmake_install)
 include(ext_cmake_compiler_specific)
 include(ext_cmake_enable_libs)
 
+ext_define_warning_flags()
+ext_colored_compiler_ouput(ON)
+
 include (TestBigEndian)
 TEST_BIG_ENDIAN(ext_is_big_endian)
 
@@ -39,7 +42,6 @@ else()
 endif()
 ext_log("installing to: ${CMAKE_INSTALL_PREFIX}")
 
-ext_define_warning_flags()
 
 set(EXT_CXX_COMPILER_IS_GCC FALSE)
 set(EXT_CXX_COMPILER_IS_CLANG FALSE)

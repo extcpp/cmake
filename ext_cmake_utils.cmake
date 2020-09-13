@@ -54,14 +54,23 @@ macro(ext_add_test_subdirectory type)
     endif()
 
     if("${type}" STREQUAL "google") # <-- expand type here!
-        if(NOT TARGET gtest) #avoid recursive inclusion of gtest
-           include(FetchContent)
+        if(NOT TARGET gtest)
+            set(ext_gtest_dir "${EXT_LIBRARIES_PATH}/googletest")
+            if (EXISTS ${ext_gtest_dir})
+                ext_log("found gtest in: ${ext_gtest_dir}")
+                add_subdirectory("${ext_gtest_dir}" "${ext_gtest_dir}-build/${CMAKE_BUILD_TYPE}" EXCLUDE_FROM_ALL)
+            endif()
+        endif()
+
+        if(NOT TARGET gtest)
+            ext_log("fetching gtest from github")
+            include(FetchContent)
 			FetchContent_Declare(gtest_github
 			    GIT_REPOSITORY https://github.com/google/googletest.git
 			    GIT_TAG master
 			    GIT_PROGRESS TRUE
 			)
-			FetchContent_MakeAvailable(gtest_github) 
+			FetchContent_MakeAvailable(gtest_github)
         endif()
     else()
         message(ERROR "unknown test type")

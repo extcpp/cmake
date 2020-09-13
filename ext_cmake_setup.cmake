@@ -10,6 +10,15 @@ set(CMAKE_CXX_STANDARD 17 CACHE STRING "Use C++17 standard.")
 set(CMAKE_CXX_STANDARD_REQUIRED ON CACHE BOOL "Use plain C++ (no GNU extentions)")
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # XCode / VS folders
 
+set(ext_libraris_dir_candidate "${CMAKE_CURRENT_SOURCE_DIR}/..")
+message(INFO "extINFO -- EXT_LIBRARIES_PATH -- Testing candidate: ${ext_libraris_dir_candidate}")
+if(EXISTS ${ext_libraris_dir_candidate}/basics/include/ext/util)
+    message(INFO "extINFO -- EXT_LIBRARIES_PATH is set to: ${ext_libraris_dir_candidate}")
+    set(EXT_LIBRARIES_PATH "${ext_libraris_dir_candidate}" CACHE PATH "Path of ext libraries.")
+else()
+    message(INFO "extINFO -- EXT_LIBRARIES_PATH not found.")
+endif()
+
 include(ext_cmake_utils)
 include(ext_cmake_install)
 include(ext_cmake_compiler_specific)

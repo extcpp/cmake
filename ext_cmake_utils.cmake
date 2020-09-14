@@ -16,6 +16,25 @@ function(ext_cat_file)
     endif()
 endfunction(ext_cat_file)
 
+function(ext_relpath path base_path out_path)
+    set(result "${path}")
+
+    get_filename_component(path "${path}" ABSOLUTE)
+    get_filename_component(base_path "${base_path}" ABSOLUTE)
+
+    string(LENGTH "${path}" path_length)
+    string(LENGTH "${base_path}" base_path_length)
+
+    string(SUBSTRING "${path}" 0 ${base_path_length} prefix)
+
+    if(prefix STREQUAL base_path)
+        math(EXPR base_path_length "${base_path_length} + 1")
+        string(SUBSTRING "${path}" ${base_path_length} -1 result)
+    endif()
+
+    set("${out_path}" "${result}" PARENT_SCOPE)
+endfunction(ext_relpath)
+
 #! prefix string with provided symbol(s) until is has given length
 #
 #  in_string - sting to be prefixed
@@ -57,7 +76,8 @@ macro(ext_add_test_subdirectory type)
         if(NOT TARGET gtest)
             set(ext_gtest_dir "${EXT_LIBRARIES_PATH}/googletest")
             if (EXISTS ${ext_gtest_dir})
-                ext_log("found gtest in: ${ext_gtest_dir}")
+                ext_relpath(${ext_gtest_dir} ${EXT_LIBRARIES_PATH} ext_gtest_dir_rel)
+                ext_log("found gtest in: $EXT_LIBRARIES_PATH/${ext_gtest_dir_rel}")
                 add_subdirectory("${ext_gtest_dir}" "${ext_gtest_dir}-build/${CMAKE_BUILD_TYPE}" EXCLUDE_FROM_ALL)
             endif()
         endif()

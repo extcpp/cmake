@@ -74,11 +74,13 @@ macro(ext_add_test_subdirectory type)
 
     if("${type}" STREQUAL "google") # <-- expand type here!
         if(NOT TARGET gtest)
-            set(ext_gtest_dir "${EXT_LIBRARIES_PATH}/googletest")
-            if (EXISTS ${ext_gtest_dir})
-                ext_relpath(${ext_gtest_dir} ${EXT_LIBRARIES_PATH} ext_gtest_dir_rel)
-                ext_log("found gtest in: $EXT_LIBRARIES_PATH/${ext_gtest_dir_rel}")
-                add_subdirectory("${ext_gtest_dir}" "${ext_gtest_dir}-build/${CMAKE_BUILD_TYPE}" EXCLUDE_FROM_ALL)
+            if(EXT_LIBRARIES_PATH)
+                set(ext_gtest_dir "${EXT_LIBRARIES_PATH}/googletest")
+                ext_log("looking for gtest in: $EXT_LIBRARIES_PATH/googletest")
+                if (EXISTS ${ext_gtest_dir})
+                    ext_log("found gtest in: $EXT_LIBRARIES_PATH/googletest")
+                    add_subdirectory("${ext_gtest_dir}" "${ext_gtest_dir}-build/${CMAKE_BUILD_TYPE}" EXCLUDE_FROM_ALL)
+                endif()
             endif()
         endif()
 
